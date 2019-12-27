@@ -10,28 +10,29 @@ let startClientX = null;
 let startClientY = null;
 
 // listen for touchstart events
-document.documentElement.addEventListener('touchstart', (e) => {
+document.documentElement.addEventListener('touchstart', event => {
     // get location of initial touch 
-    startClientX = e.touches[0].clientX;
-    startClientY = e.touches[0].clientY;
+    startClientX = event.touches[0].clientX;
+    startClientY = event.touches[0].clientY;
 });
 
 
 // listen for touchend events
-document.documentElement.addEventListener('touchend', (e) => {
+document.documentElement.addEventListener('touchend', event => {
     // get location of end touch 
-    let endClientX = e.changedTouches[0].clientX;
-    let endClientY = e.changedTouches[0].clientY;
+    let endClientX = event.changedTouches[0].clientX;
+    let endClientY = event.changedTouches[0].clientY;
     
     // calculate gesture movement on X and Y as percentage of page size
     const percentageMoveX = (startClientX - endClientX) / width * 100;
-    const percentageMoveY = (endClientY - startClientY) / width * 100;
+    const percentageMoveY = (endClientY - startClientY) / height * 100;
     
     if (window.scrollY === 0 // if the window is at the top
         && percentageMoveY > 0 // and movement on Y is downwards
-        && percentageMoveX < Math.abs(tresholdMoveX) // and movemenent on X is maximum tresholdMoveY
-        && Math.abs(percentageMoveY) >= 30 // and movement on Y is minimum percentageMoveY
+        && Math.abs(percentageMoveX) < tresholdMoveX // and movemenent on X is maximum tresholdMoveX
+        && Math.abs(percentageMoveY) >= tresholdMoveY // and movement on Y is minimum tresholdMoveY
     ){
+        // reload the page and force refresh the cache
         window.location.reload(true);
     }
 });
