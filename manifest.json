@@ -1,0 +1,26 @@
+{
+
+  "manifest_version": 2,
+  "name": "pull-to-refresh",
+  "version": "0.3",
+
+  "description": "Pull down gesture to reload page.",
+
+  "icons": {
+    "48": "icons/border-48.png"
+  },
+
+  "content_scripts": [
+    {
+      "matches": ["<all_urls>"],
+      "js": ["pull-to-refresh.js"],
+      "run_at": "document_start"
+    }
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "pull-to-refresh@dorkfarm.com",
+      "strict_min_version": "65.0"
+    }
+  }
+}
