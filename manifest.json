@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "pull-to-refresh",
-  "version": "0.5",
+  "version": "0.7",
   "description": "Pull down gesture to reload page.",
   "icons": {
     "24": "icons/refresh-button-24.png",
@@ -16,5 +16,15 @@
       "js": ["pull-to-refresh.js"],
       "run_at": "document_start"
     }
-  ]
+  ],
+  "options_ui": {
+    "page": "options.html"
+  },
+
+  "permissions": ["storage"],
+  "applications": {
+    "gecko": {
+      "id": "pull-to-refresh@dorkfarm.com"
+    }
+  }
 }

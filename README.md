@@ -1,7 +1,8 @@
 # Pull to Refresh
 
-Firefox Addon for refreshing page on Pull Down gesture.
+Firefox Addon for refreshing page on Pull Down gesture. There are no visual indicators during the gesture.
 
-Tested only on Android and Windows 10.
+Tested on Android and Windows 10.
 
-Icon made by Freepik perfect from www.flaticon.com.
+
+Icon made by **Freepik** from **www.flaticon.com**.
