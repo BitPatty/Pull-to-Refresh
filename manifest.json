@@ -2,7 +2,7 @@
 
   "manifest_version": 2,
   "name": "pull-to-refresh",
-  "version": "0.7",
+  "version": "0.8",
   "description": "Pull down gesture to reload page.",
   "icons": {
     "24": "icons/refresh-button-24.png",
