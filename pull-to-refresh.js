@@ -1,6 +1,6 @@
 
-let tresholdMoveX = 5; // max percentage moving on X
-let tresholdMoveY = 50; // min percentage moving on Y
+let tresholdMoveX = 50; // max percentage moving on X
+let tresholdMoveY = 5; // min percentage moving on Y
 
 // get page height and  width
 const height = window.screen.height;
@@ -37,13 +37,14 @@ function onGot(data) {
         // calculate gesture movement on X and Y as percentage of page size
         const percentageMoveX = (startClientX - endClientX) / width * 100;
         const percentageMoveY = (endClientY - startClientY) / height * 100;
-
+        
         if (window.scrollY === 0 // if the window is at the top
             && percentageMoveY > 0 // and movement on Y is downwards
             && Math.abs(percentageMoveX) < tresholdMoveX // and movemenent on X is maximum tresholdMoveX
             && Math.abs(percentageMoveY) >= tresholdMoveY // and movement on Y is minimum tresholdMoveY
         ) {
             // reload the page and force refresh the cache
+            // console.log('reload!!!!')
             window.location.reload(true);
         }
     });

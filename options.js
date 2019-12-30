@@ -20,8 +20,8 @@ function saveOptions(e) {
 function restoreOptions() {
 
     function setCurrentChoice(result) {
-        document.querySelector("#tresholdMoveX").value = result.tresholdMoveX || 5;
-        document.querySelector("#tresholdMoveY").value = result.tresholdMoveY || 50;
+        document.querySelector("#tresholdMoveX").value = result.settings.tresholdMoveX || 50;
+        document.querySelector("#tresholdMoveY").value = result.settings.tresholdMoveY || 5;
     }
 
     function onError(error) {
