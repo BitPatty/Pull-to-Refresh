@@ -8,8 +8,14 @@
   <body>
     <form>
         <br />
-        <label>Maximum move on X: <input style="height: 32px;" type="number" id="tresholdMoveX"> % of screen width</label><br /><br />
-        <label>Minimim movement on Y: <input style="height: 32px;" type="number" id="tresholdMoveY">% of screen height</label><br /><br /><br />
+        <h2>Vertical Gesture: </h2>
+        <label>Maximum move on X: <input style="height: 32px;" type="number" id="verticalTresholdMoveX"> % of screen width</label><br /><br />
+        <label>Minimim movement on Y: <input style="height: 32px;" type="number" id="verticalTresholdMoveY">% of screen height</label><br /><br /><br />
+
+        <h2>Horizontal Gesture: </h2>
+        <label>Minimim move on X: <input style="height: 32px;" type="number" id="horizontalTresholdMoveX"> % of screen width</label><br /><br />
+        <label>Maximum movement on Y: <input style="height: 32px;" type="number" id="horizontalTresholdMoveY">% of screen height</label><br /><br /><br />
+
         <button type="submit">Save</button>
         <span id='savedMsg' style="display: none;">Saved ✔</span>
       </form>

@@ -10,8 +10,10 @@ function saveOptions(e) {
     e.preventDefault();
     browser.storage.sync.set({
         settings: {
-            tresholdMoveX: document.querySelector("#tresholdMoveX").value,
-            tresholdMoveY: document.querySelector("#tresholdMoveY").value
+            verticalTresholdMoveX: document.querySelector("#verticalTresholdMoveX").value,
+            verticalTresholdMoveY: document.querySelector("#verticalTresholdMoveY").value,
+            horizontalTresholdMoveX: document.querySelector("#horizontalTresholdMoveX").value,
+            horizontalTresholdMoveY: document.querySelector("#horizontalTresholdMoveY").value,
         }
     });
     showSavedMsg()
@@ -20,8 +22,20 @@ function saveOptions(e) {
 function restoreOptions() {
 
     function setCurrentChoice(result) {
-        document.querySelector("#tresholdMoveX").value = result.settings.tresholdMoveX || 50;
-        document.querySelector("#tresholdMoveY").value = result.settings.tresholdMoveY || 5;
+        document.querySelector("#verticalTresholdMoveX").value = result.settings && result.settings.verticalTresholdMoveX 
+            ? result.settings.verticalTresholdMoveX 
+            : 50;
+        document.querySelector("#verticalTresholdMoveY").value = result.settings && result.settings.verticalTresholdMoveY 
+            ? result.settings.verticalTresholdMoveY
+            : 5;
+
+        
+        document.querySelector("#horizontalTresholdMoveX").value = result.settings && result.settings.horizontalTresholdMoveX 
+            ? result.settings.horizontalTresholdMoveX 
+            : 5;
+        document.querySelector("#horizontalTresholdMoveY").value = result.settings && result.settings.horizontalTresholdMoveY 
+            ? result.settings.horizontalTresholdMoveY
+            : 50;
     }
 
     function onError(error) {
