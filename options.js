@@ -1,50 +1,74 @@
 function showSavedMsg() {
-    el = document.querySelector('#savedMsg')
-    el.style.display = 'inline';
+    el = document.querySelector("#savedMsg");
+    el.style.display = "inline";
     setTimeout(() => {
-        el.style.display = 'none';
+        el.style.display = "none";
     }, 1500);
+}
+
+function toggleFieldset(e) {
+    if (e && e.target) {
+        const fieldsetId = e.target.getAttribute("data-toggle");
+
+        if (fieldsetId)
+            document.querySelector(`#${fieldsetId}`).disabled = !e.target
+                .checked;
+    }
 }
 
 function saveOptions(e) {
     e.preventDefault();
-    browser.storage.sync.set({
-        settings: {
-            verticalTresholdMoveX: document.querySelector("#verticalTresholdMoveX").value,
-            verticalTresholdMoveY: document.querySelector("#verticalTresholdMoveY").value,
-            horizontalTresholdMoveX: document.querySelector("#horizontalTresholdMoveX").value,
-            horizontalTresholdMoveY: document.querySelector("#horizontalTresholdMoveY").value,
-        }
+
+    const config = {};
+
+    document.querySelectorAll("form input[type=number]").forEach(e => {
+        config[e.id] = +(e.value ?? e.getAttribute("placeholder"));
     });
-    showSavedMsg()
+
+    document.querySelectorAll("form input[data-toggle]").forEach(e => {
+        config[e.id] = e.checked;
+    });
+
+    browser.storage.sync.set({
+        settings: config
+    });
+
+    showSavedMsg();
 }
 
-function restoreOptions() {
+function restore() {
+    addListeners();
 
     function setCurrentChoice(result) {
-        document.querySelector("#verticalTresholdMoveX").value = result.settings && result.settings.verticalTresholdMoveX 
-            ? result.settings.verticalTresholdMoveX 
-            : 50;
-        document.querySelector("#verticalTresholdMoveY").value = result.settings && result.settings.verticalTresholdMoveY 
-            ? result.settings.verticalTresholdMoveY
-            : 5;
+        document.querySelectorAll("form input[type=number]").forEach(e => {
+            e.value =
+                result.settings && result.settings[e.id]
+                    ? result.settings[e.id]
+                    : e.getAttribute("placeholder");
+        });
 
-        
-        document.querySelector("#horizontalTresholdMoveX").value = result.settings && result.settings.horizontalTresholdMoveX 
-            ? result.settings.horizontalTresholdMoveX 
-            : 5;
-        document.querySelector("#horizontalTresholdMoveY").value = result.settings && result.settings.horizontalTresholdMoveY 
-            ? result.settings.horizontalTresholdMoveY
-            : 50;
+        document.querySelectorAll("form input[data-toggle]").forEach(e => {
+            if (result.settings && result.settings[e.id] != null) {
+                e.checked = result.settings[e.id];
+                e.dispatchEvent(new Event("change"));
+            }
+        });
     }
 
     function onError(error) {
         console.log(`Error: ${error}`);
     }
 
-    var settings = browser.storage.sync.get('settings');
+    var settings = browser.storage.sync.get("settings");
     settings.then(setCurrentChoice, onError);
 }
 
-document.addEventListener("DOMContentLoaded", restoreOptions);
-document.querySelector("form").addEventListener("submit", saveOptions);
+function addListeners() {
+    document.querySelector("form").addEventListener("submit", saveOptions);
+
+    document
+        .querySelectorAll("input[data-toggle]")
+        .forEach(e => e.addEventListener("change", toggleFieldset));
+}
+
+document.addEventListener("DOMContentLoaded", restore);
