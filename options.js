@@ -42,7 +42,7 @@ function restore() {
     function setCurrentChoice(result) {
         document.querySelectorAll("form input[type=number]").forEach(e => {
             e.value =
-                result.settings && result.settings[e.id]
+                result.settings && result.settings[e.id] != null
                     ? result.settings[e.id]
                     : e.getAttribute("placeholder");
         });
