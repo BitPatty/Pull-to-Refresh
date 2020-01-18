@@ -16,11 +16,13 @@ async function migrateConfiguration() {
             config.verticalThresholdMoveY = config.verticalTresholdMoveY;
             config.horizontalThresholdMoveX = config.verticalTresholdMoveY;
             config.horizontalThresholdMoveY = config.horizontalTresholdMoveY;
+            config.invertHorizontalGestures = true;
         } else {
             config.verticalThresholdMoveX = 50;
             config.verticalThresholdMoveY = 5;
             config.horizontalThresholdMoveX = 50;
             config.horizontalThresholdMoveY = 5;
+            config.invertHorizontalGestures = false;
         }
     }
 

@@ -49,7 +49,7 @@ async function saveOptions(sender = null) {
             config[e.id] = +(e.value || e.getAttribute("placeholder"));
         });
 
-        document.querySelectorAll("form input[data-toggle]").forEach(e => {
+        document.querySelectorAll("form input[type=checkbox]").forEach(e => {
             config[e.id] = e.checked;
         });
 
@@ -90,10 +90,12 @@ async function restore() {
                     : e.getAttribute("placeholder");
         });
 
-        document.querySelectorAll("form input[data-toggle]").forEach(e => {
+        document.querySelectorAll("form input[type=checkbox]").forEach(e => {
             if (result.settings && result.settings[e.id] != null) {
                 e.checked = result.settings[e.id];
-                e.dispatchEvent(new Event("change"));
+
+                if (e.getAttribute("data-toggle") != null)
+                    e.dispatchEvent(new Event("change"));
             }
         });
     }

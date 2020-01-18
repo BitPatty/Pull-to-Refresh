@@ -10,14 +10,18 @@
             }
             fieldset,
             fieldset label,
-            fieldset input {
+            fieldset input[type="number"] {
                 box-sizing: border-box;
                 display: block;
                 width: 100%;
                 margin: 10px 0px;
             }
-            fieldset > input {
+            fieldset > input[type="number"] {
                 height: 32px;
+            }
+            fieldset input[type="checkbox"] ~ label {
+                display: inline-block;
+                width: auto;
             }
         </style>
     </head>
@@ -34,7 +38,7 @@
                     Enable Vertical Gestures
                 </label>
                 <fieldset id="verticalGestures">
-                    <legend>Vertical Gesture:</legend>
+                    <legend>Vertical Gesture Configuration:</legend>
                     <label>Maximum move on X (% of screen width):</label>
                     <input
                         type="number"
@@ -60,7 +64,7 @@
                     Enable Horizontal Gestures
                 </label>
                 <fieldset id="horizontalGestures">
-                    <legend>Horizontal Gesture:</legend>
+                    <legend>Horizontal Gesture Configuration:</legend>
                     <label>Minimum move on X (% of screen width):</label>
                     <input
                         type="number"
@@ -73,6 +77,14 @@
                         placeholder="50"
                         id="horizontalThresholdMoveY"
                     />
+                    <input
+                        type="checkbox"
+                        id="invertHorizontalGestures"
+                        checked
+                    />
+                    <label for="invertHorizontalGestures">
+                        Invert horizontal gestures
+                    </label>
                 </fieldset>
             </section>
             <button type="submit">Save</button>

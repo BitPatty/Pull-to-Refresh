@@ -44,7 +44,9 @@ function onGot(data) {
             Math.abs(percentageMoveX) >= config.horizontalThresholdMoveX && // and movement on X is minimum 10
             Math.abs(percentageMoveY) <= config.horizontalThresholdMoveY // and movement on Y is maximum 10
         ) {
-            window.history.forward();
+            config.invertHorizontalGestures
+                ? window.history.forward()
+                : window.history.back();
         } else if (
             config.enableHorizontalGestures &&
             endClientX <= width * 0.1 && // movement is finished at the left margin of the screen
@@ -52,7 +54,9 @@ function onGot(data) {
             Math.abs(percentageMoveX) >= config.horizontalThresholdMoveX && // and movement on X is minimum 10
             Math.abs(percentageMoveY) <= config.horizontalThresholdMoveY // and movement on Y is maximum 10
         ) {
-            window.history.back();
+            config.invertHorizontalGestures
+                ? window.history.back()
+                : window.history.forward();
         }
     });
 }
