@@ -9,16 +9,7 @@ let startClientY = null;
 function onError(error) {}
 
 function onGot(data) {
-    settings = data.settings || {};
-
-    verticalTresholdMoveX = settings.verticalTresholdMoveX || 50;
-    verticalTresholdMoveY = settings.verticalTresholdMoveY || 5;
-
-    horizontalTresholdMoveX = settings.horizontalTresholdMoveX || 5;
-    horizontalTresholdMoveY = settings.horizontalTresholdMoveY || 50;
-
-    enableVerticalGestures = settings.enableVerticalGestures ?? true;
-    enableHorizontalGestures = settings.enableHorizontalGestures ?? true;
+    const config = data.settings;
 
     // listen for touchstart events
     document.documentElement.addEventListener("touchstart", event => {
@@ -38,33 +29,39 @@ function onGot(data) {
         const percentageMoveY = ((endClientY - startClientY) / height) * 100;
 
         if (
-            enableVerticalGestures &&
+            config.enableVerticalGestures &&
             window.scrollY === 0 && // if the window is at the top
             percentageMoveY > 0 && // and movement on Y is downwards
-            Math.abs(percentageMoveX) < verticalTresholdMoveX && // and movemenent on X is maximum verticalTresholdMoveX
-            Math.abs(percentageMoveY) >= verticalTresholdMoveY // and movement on Y is minimum verticalTresholdMoveY
+            Math.abs(percentageMoveX) < config.verticalThresholdMoveX && // and movemenent on X is maximum verticalThresholdMoveX
+            Math.abs(percentageMoveY) >= config.verticalThresholdMoveY // and movement on Y is minimum verticalThresholdMoveY
         ) {
             // reload the page and force refresh the cache
             window.location.reload(true);
         } else if (
-            enableHorizontalGestures &&
+            config.enableHorizontalGestures &&
             endClientX >= width * 0.9 && // movement is finished at the right margin of the screen
             percentageMoveX > 0 && // move on X is left to right
-            Math.abs(percentageMoveX) >= horizontalTresholdMoveX && // and movement on X is minimum 10
-            Math.abs(percentageMoveY) <= horizontalTresholdMoveY // and movement on Y is maximum 10
+            Math.abs(percentageMoveX) >= config.horizontalThresholdMoveX && // and movement on X is minimum 10
+            Math.abs(percentageMoveY) <= config.horizontalThresholdMoveY // and movement on Y is maximum 10
         ) {
             window.history.forward();
         } else if (
-            enableHorizontalGestures &&
+            config.enableHorizontalGestures &&
             endClientX <= width * 0.1 && // movement is finished at the left margin of the screen
             percentageMoveX < 0 && // move on X is right to left
-            Math.abs(percentageMoveX) >= horizontalTresholdMoveX && // and movement on X is minimum 10
-            Math.abs(percentageMoveY) <= horizontalTresholdMoveY // and movement on Y is maximum 10
+            Math.abs(percentageMoveX) >= config.horizontalThresholdMoveX && // and movement on X is minimum 10
+            Math.abs(percentageMoveY) <= config.horizontalThresholdMoveY // and movement on Y is maximum 10
         ) {
             window.history.back();
         }
     });
 }
 
-const data = browser.storage.sync.get("settings");
-data.then(onGot, onError);
+function init() {
+    migrateConfiguration().then(() => {
+        const data = browser.storage.sync.get("settings");
+        data.then(onGot, onError);
+    });
+}
+
+document.addEventListener("DOMContentLoaded", init);

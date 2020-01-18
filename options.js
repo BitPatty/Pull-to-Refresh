@@ -6,6 +6,11 @@ function showSavedMsg() {
     }, 1500);
 }
 
+/**
+ * Checkbox event listener
+ * Enables or disables a fieldset based on the checkbox values
+ * @param {*} e checkbox change event
+ */
 function toggleFieldset(e) {
     if (e && e.target) {
         const fieldsetId = e.target.getAttribute("data-toggle");
@@ -16,27 +21,65 @@ function toggleFieldset(e) {
     }
 }
 
-function saveOptions(e) {
-    e.preventDefault();
-
-    const config = {};
-
-    document.querySelectorAll("form input[type=number]").forEach(e => {
-        config[e.id] = +(e.value ?? e.getAttribute("placeholder"));
-    });
-
-    document.querySelectorAll("form input[data-toggle]").forEach(e => {
-        config[e.id] = e.checked;
-    });
-
-    browser.storage.sync.set({
+/**
+ * Stores the configuration
+ * @param {*} config
+ */
+async function saveConfiguration(config) {
+    await browser.storage.sync.set({
         settings: config
     });
-
-    showSavedMsg();
 }
 
-function restore() {
+/**
+ * Save the current configuration
+ * @param {*} sender sender
+ */
+async function saveOptions(sender = null) {
+    if (sender) {
+        sender.preventDefault();
+        sender.disabled = true;
+    }
+
+    try {
+        const storage = await browser.storage.sync.get("settings");
+        const config = storage.settings || {};
+
+        document.querySelectorAll("form input[type=number]").forEach(e => {
+            config[e.id] = +(e.value || e.getAttribute("placeholder"));
+        });
+
+        document.querySelectorAll("form input[data-toggle]").forEach(e => {
+            config[e.id] = e.checked;
+        });
+
+        await saveConfiguration(config);
+        showSavedMsg();
+    } catch (err) {
+        throw err;
+    } finally {
+        if (sender) {
+            sender.disabled = false;
+        }
+    }
+}
+
+/**
+ * Adds input event listeners
+ */
+function addListeners() {
+    document.querySelector("form").addEventListener("submit", saveOptions);
+
+    document
+        .querySelectorAll("input[data-toggle]")
+        .forEach(e => e.addEventListener("change", toggleFieldset));
+}
+
+/**
+ * Restores the stored configuration
+ */
+async function restore() {
+    await migrateConfiguration();
     addListeners();
 
     function setCurrentChoice(result) {
@@ -59,16 +102,7 @@ function restore() {
         console.log(`Error: ${error}`);
     }
 
-    var settings = browser.storage.sync.get("settings");
-    settings.then(setCurrentChoice, onError);
-}
-
-function addListeners() {
-    document.querySelector("form").addEventListener("submit", saveOptions);
-
-    document
-        .querySelectorAll("input[data-toggle]")
-        .forEach(e => e.addEventListener("change", toggleFieldset));
+    browser.storage.sync.get("settings").then(setCurrentChoice, onError);
 }
 
 document.addEventListener("DOMContentLoaded", restore);

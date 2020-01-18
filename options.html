@@ -38,13 +38,13 @@
                     <input
                         type="number"
                         placeholder="50"
-                        id="verticalTresholdMoveX"
+                        id="verticalThresholdMoveX"
                     />
                     <label>Minimum movement on Y (% of screen height):</label>
                     <input
                         type="number"
                         placeholder="5"
-                        id="verticalTresholdMoveY"
+                        id="verticalThresholdMoveY"
                     />
                 </fieldset>
             </section>
@@ -56,7 +56,7 @@
                     checked
                 />
                 <label for="enableHorizontalGestures">
-                    Enable Vertical Gestures
+                    Enable Horizontal Gestures
                 </label>
                 <fieldset id="horizontalGestures">
                     <legend>Horizontal Gesture:</legend>
@@ -64,13 +64,13 @@
                     <input
                         type="number"
                         placeholder="5"
-                        id="horizontalTresholdMoveX"
+                        id="horizontalThresholdMoveX"
                     />
                     <label>Maximum movement on Y (% of screen height): </label>
                     <input
                         type="number"
                         placeholder="50"
-                        id="horizontalTresholdMoveY"
+                        id="horizontalThresholdMoveY"
                     />
                 </fieldset>
             </section>
@@ -78,5 +78,6 @@
             <span id="savedMsg" style="display: none;">Saved ✔</span>
         </form>
     </body>
+    <script src="config_migrator.js"></script>
     <script src="options.js"></script>
 </html>
